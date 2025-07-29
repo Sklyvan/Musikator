@@ -47,7 +47,7 @@ Customize Musikator’s behavior via the INI file:
 | LEVEL       | Log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)| DEBUG                        |
 | FORMAT      | Log message format                               | "%(asctime)s - %(name)s ..." |
 
-### SEARCH]🔍
+### SEARCH 🔍
 
 | Key                | Description                                 | Example Value                |
 |--------------------|---------------------------------------------|------------------------------|
