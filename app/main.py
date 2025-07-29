@@ -1,4 +1,5 @@
 from configuration import CONFIGURATION
+from utils import copyFileToDirectory
 from files import obtainAudioFiles
 from converter import toAIFF, Path
 from datetime import datetime
@@ -11,6 +12,7 @@ def main(inputPath: str) -> None:
     :param inputPath: Path to the directory containing audio files.
     """
     recursiveSearch = CONFIGURATION.getboolean('SEARCH', 'RECURSIVE', fallback=False)
+    unpackFiles = CONFIGURATION.getboolean('OUTPUT', 'UNPACK_FILES', fallback=False)
 
     LOGGER.info(f"Starting conversion of audio files in: {inputPath}")
 
@@ -26,12 +28,19 @@ def main(inputPath: str) -> None:
         outputDir = os.path.join(os.path.dirname(inputPath), f"{baseName}_{timestamp}")
 
         for filePath in audioFiles:
+            outputDir = f"{os.path.dirname(filePath)}_{timestamp}" if not unpackFiles else outputDir
+
             if filePath.lower().endswith('.aiff'):
-                LOGGER.info(f"Skipping already converted file: {filePath}")
+                LOGGER.info(f"Not converting already converted file: {filePath}")
+                copyFileToDirectory(filePath, outputDir)
+                LOGGER.info(f"Copied {filePath} to {outputDir}")
                 continue
             if filePath.lower().endswith('.mp3'):
-                LOGGER.info(f"Skipping MP3 file: {filePath}")
+                LOGGER.info(f"Not converting MP3 file: {filePath}")
+                copyFileToDirectory(filePath, outputDir)
+                LOGGER.info(f"Copied {filePath} to {outputDir}")
                 continue
+
             try:
                 convertedFile = toAIFF(Path(filePath), Path(outputDir))
             except Exception as e:
@@ -41,4 +50,5 @@ def main(inputPath: str) -> None:
 
 
 if __name__ == "__main__":
-    main(r"C:\Users\jgracia4\Documents\Musikator\music")
+    INPUT_FOLDER = "C:/Users/jgracia4/Documents/Musikator/testMusic"
+    main(INPUT_FOLDER)
