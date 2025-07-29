@@ -28,8 +28,8 @@ def main(inputPath: str) -> None:
         timestamp = datetime.now().strftime(CONFIGURATION.get('OUTPUT', 'NEW_FOLDER_TIMESTAMP'))
         baseName = os.path.basename(os.path.normpath(inputPath))
         outputDir = os.path.join(os.path.dirname(inputPath), f"{baseName}_{timestamp}")
-
-        for filePath in audioFiles:
+        n = len(audioFiles)
+        for i, filePath in enumerate(audioFiles):
             outputDir = f"{os.path.dirname(filePath)}_{timestamp}" if not UNPACK_FILES else outputDir
             audioFormat = filePath.split('.')[-1].upper()
 
@@ -58,3 +58,5 @@ def main(inputPath: str) -> None:
                     LOGGER.info(f"Successfully converted: {filePath} -> {convertedFile}")
             else:
                 LOGGER.warning(f"File {filePath} does not meet the sample rate threshold {sampleThreshold} Hz.")
+
+            yield i+1, n
