@@ -1,4 +1,4 @@
-from configuration import FFMPEG_PATH
+from .configuration import FFMPEG_PATH
 import subprocess
 import re
 import os

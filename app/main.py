@@ -1,10 +1,10 @@
-from filtering import checkFileSampleRate
-from configuration import CONFIGURATION
-from utils import copyFileToDirectory
-from files import obtainAudioFiles
-from converter import toAIFF, Path
+from .filtering import checkFileSampleRate
+from .configuration import CONFIGURATION
+from .utils import copyFileToDirectory
+from .files import obtainAudioFiles
+from .converter import toAIFF, Path
 from datetime import datetime
-from logger import LOGGER
+from .logger import LOGGER
 import os
 
 RECURSIVE_SEARCH = CONFIGURATION.getboolean('SEARCH', 'RECURSIVE', fallback=False)

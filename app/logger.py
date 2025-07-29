@@ -1,4 +1,4 @@
-from configuration import CONFIGURATION
+from .configuration import CONFIGURATION
 import logging
 
 def startLogger() -> logging.Logger:

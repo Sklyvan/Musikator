@@ -3,7 +3,7 @@ from mutagen.aiff import AIFF
 from mutagen.wave import WAVE
 from mutagen.mp4 import MP4
 from mutagen.mp3 import MP3
-from logger import LOGGER
+from .logger import LOGGER
 import shutil
 import os
 

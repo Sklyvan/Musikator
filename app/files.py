@@ -1,5 +1,5 @@
-from configuration import CONFIGURATION
-from logger import LOGGER
+from .configuration import CONFIGURATION
+from .logger import LOGGER
 import os
 
 AUDIO_FILE_EXTENSIONS = tuple(eval(CONFIGURATION.get('SEARCH', 'ACCEPTED_EXTENSIONS')))

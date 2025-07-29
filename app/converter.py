@@ -1,5 +1,5 @@
-from configuration import FFMPEG_PATH
-from logger import LOGGER
+from .configuration import FFMPEG_PATH
+from .logger import LOGGER
 from pathlib import Path
 import subprocess
 
