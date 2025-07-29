@@ -29,11 +29,11 @@ jobs:
 
       - name: Create ZIP
         run: |
-          powershell Compress-Archive -Path dist\Musikator.exe,dist\configuration.ini -DestinationPath Musikator_release.zip
+          powershell Compress-Archive -Path dist\Musikator.exe,dist\configuration.ini -DestinationPath Musikator.zip
 
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
         with:
-          files: Musikator_release.zip
+          files: Musikator.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
