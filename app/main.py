@@ -1,3 +1,4 @@
+from filtering import checkFileSampleRate
 from configuration import CONFIGURATION
 from utils import copyFileToDirectory
 from files import obtainAudioFiles
@@ -8,6 +9,7 @@ import os
 
 RECURSIVE_SEARCH = CONFIGURATION.getboolean('SEARCH', 'RECURSIVE', fallback=False)
 UNPACK_FILES = CONFIGURATION.getboolean('OUTPUT', 'UNPACK_FILES', fallback=False)
+APPLY_FILTERING = CONFIGURATION.getboolean('FILTERING', 'ENABLED', fallback=False)
 
 def main(inputPath: str) -> None:
     """
@@ -29,24 +31,33 @@ def main(inputPath: str) -> None:
 
         for filePath in audioFiles:
             outputDir = f"{os.path.dirname(filePath)}_{timestamp}" if not UNPACK_FILES else outputDir
+            audioFormat = filePath.split('.')[-1].upper()
 
-            if filePath.lower().endswith('.aiff'):
-                LOGGER.info(f"Not converting already converted file: {filePath}")
-                copyFileToDirectory(filePath, outputDir)
-                LOGGER.info(f"Copied {filePath} to {outputDir}")
-                continue
-            if filePath.lower().endswith('.mp3'):
-                LOGGER.info(f"Not converting MP3 file: {filePath}")
-                copyFileToDirectory(filePath, outputDir)
-                LOGGER.info(f"Copied {filePath} to {outputDir}")
-                continue
+            sampleThreshold = CONFIGURATION.getint('FILTERING', f'{audioFormat}_THRESHOLD')
+            isValidSampleRate = checkFileSampleRate(filePath, sampleThreshold) if APPLY_FILTERING else True
 
-            try:
-                convertedFile = toAIFF(Path(filePath), Path(outputDir))
-            except Exception as e:
-                LOGGER.error(f"Failed to convert {filePath}: {e}")
+            if isValidSampleRate:
+                if APPLY_FILTERING:
+                    LOGGER.info(f"File {filePath} meets the sample rate threshold {sampleThreshold} Hz")
+                if filePath.lower().endswith('.aiff'):
+                    LOGGER.info(f"Not converting already converted file: {filePath}")
+                    copyFileToDirectory(filePath, outputDir)
+                    LOGGER.info(f"Copied {filePath} to {outputDir}")
+                    continue
+                if filePath.lower().endswith('.mp3'):
+                    LOGGER.info(f"Not converting MP3 file: {filePath}")
+                    copyFileToDirectory(filePath, outputDir)
+                    LOGGER.info(f"Copied {filePath} to {outputDir}")
+                    continue
+
+                try:
+                    convertedFile = toAIFF(Path(filePath), Path(outputDir))
+                except Exception as e:
+                    LOGGER.error(f"Failed to convert {filePath}: {e}")
+                else:
+                    LOGGER.info(f"Successfully converted: {filePath} -> {convertedFile}")
             else:
-                LOGGER.info(f"Successfully converted: {filePath} -> {convertedFile}")
+                LOGGER.warning(f"File {filePath} does not meet the sample rate threshold {sampleThreshold} Hz.")
 
 
 if __name__ == "__main__":
