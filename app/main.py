@@ -6,17 +6,17 @@ from datetime import datetime
 from logger import LOGGER
 import os
 
+RECURSIVE_SEARCH = CONFIGURATION.getboolean('SEARCH', 'RECURSIVE', fallback=False)
+UNPACK_FILES = CONFIGURATION.getboolean('OUTPUT', 'UNPACK_FILES', fallback=False)
+
 def main(inputPath: str) -> None:
     """
     Main function to convert audio files to AIFF format.
     :param inputPath: Path to the directory containing audio files.
     """
-    recursiveSearch = CONFIGURATION.getboolean('SEARCH', 'RECURSIVE', fallback=False)
-    unpackFiles = CONFIGURATION.getboolean('OUTPUT', 'UNPACK_FILES', fallback=False)
-
     LOGGER.info(f"Starting conversion of audio files in: {inputPath}")
 
-    audioFiles = obtainAudioFiles(inputPath, recursiveSearch)
+    audioFiles = obtainAudioFiles(inputPath, RECURSIVE_SEARCH)
 
     if not audioFiles:
         LOGGER.warning("No audio files found to convert.")
@@ -28,7 +28,7 @@ def main(inputPath: str) -> None:
         outputDir = os.path.join(os.path.dirname(inputPath), f"{baseName}_{timestamp}")
 
         for filePath in audioFiles:
-            outputDir = f"{os.path.dirname(filePath)}_{timestamp}" if not unpackFiles else outputDir
+            outputDir = f"{os.path.dirname(filePath)}_{timestamp}" if not UNPACK_FILES else outputDir
 
             if filePath.lower().endswith('.aiff'):
                 LOGGER.info(f"Not converting already converted file: {filePath}")
