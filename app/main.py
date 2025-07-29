@@ -46,7 +46,7 @@ def main(inputPath: str) -> None:
             except Exception as e:
                 LOGGER.error(f"Failed to convert {filePath}: {e}")
             else:
-                LOGGER.info(f"Successfully converted: {filePath} → {convertedFile}")
+                LOGGER.info(f"Successfully converted: {filePath} -> {convertedFile}")
 
 
 if __name__ == "__main__":

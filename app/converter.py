@@ -41,7 +41,7 @@ def toAIFF(inputPath: Path, outputDir: Path) -> Path:
             LOGGER.error(f"FFmpeg error converting {inputPath.name}: {runResult.stderr}")
             raise RuntimeError(f"FFmpeg failed for {inputPath.name}")
         else:
-            LOGGER.info(f"Converted: {inputPath.name} → {outputFile.name}")
+            LOGGER.info(f"Converted: {inputPath.name} -> {outputFile.name}")
             return outputFile
 
     except Exception as e:
