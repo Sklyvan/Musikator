@@ -58,8 +58,3 @@ def main(inputPath: str) -> None:
                     LOGGER.info(f"Successfully converted: {filePath} -> {convertedFile}")
             else:
                 LOGGER.warning(f"File {filePath} does not meet the sample rate threshold {sampleThreshold} Hz.")
-
-
-if __name__ == "__main__":
-    INPUT_FOLDER = "C:/Users/jgracia4/Documents/Musikator/testMusic"
-    main(INPUT_FOLDER)
