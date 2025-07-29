@@ -1,0 +1,39 @@
+name: Build and Release Musikator
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+
+      - name: Build EXE
+        run: pyinstaller --onefile --windowed --name Musikator .\app\ui.py
+
+      - name: Copy INI file
+        run: copy app\configuration.ini dist\configuration.ini
+
+      - name: Create ZIP
+        run: |
+          powershell Compress-Archive -Path dist\Musikator.exe,dist\configuration.ini -DestinationPath Musikator_release.zip
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: Musikator_release.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
