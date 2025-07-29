@@ -18,7 +18,8 @@ def checkFileSampleRate(filePath: str, minimumRate: int) -> bool:
             [FFMPEG_PATH, "-i", filePath],
             stderr=subprocess.PIPE,
             stdout=subprocess.PIPE,
-            text=True
+            text=True,
+            creationflags=subprocess.CREATE_NO_WINDOW
         )
 
         # Look for something like "44100 Hz"
