@@ -35,7 +35,13 @@ def toAIFF(inputPath: Path, outputDir: Path) -> Path:
     try:
         LOGGER.debug(f"Running ffmpeg command: {' '.join(ffmpegInstruction)}")
 
-        runResult = subprocess.run(ffmpegInstruction, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        runResult = subprocess.run(
+            ffmpegInstruction,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            encoding="utf-8"
+        )
 
         if runResult.returncode != 0:
             LOGGER.error(f"FFmpeg error converting {inputPath.name}: {runResult.stderr}")
