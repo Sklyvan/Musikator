@@ -40,7 +40,8 @@ def toAIFF(inputPath: Path, outputDir: Path) -> Path:
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
-            encoding="utf-8"
+            encoding="utf-8",
+            creationflags=subprocess.CREATE_NO_WINDOW
         )
 
         if runResult.returncode != 0:
