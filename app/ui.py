@@ -1,6 +1,12 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QFileDialog, QLineEdit, QLabel, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QFileDialog, QLineEdit, QMessageBox
 from app.main import main
+import sys
+
+ERROR_MESSAGE_TITLE = "Error"
+ERROR_MESSAGE = "Avisa a la PEDAZO de puta de Sklyvan que algo ha ido mal"
+
+SUCCESS_MESSAGE_TITLE = "LEKKER!"
+SUCCESS_MESSAGE = "La Dahyun es una CERDA"
 
 class ConverterUI(QWidget):
     def __init__(self):
@@ -31,13 +37,13 @@ class ConverterUI(QWidget):
     def convert_files(self):
         path = self.inputPath.text()
         if not path:
-            QMessageBox.warning(self, "Error", "Avisa a la pedazo de puta de Sklyvan que algo ha ido mal")
+            QMessageBox.warning(self, ERROR_MESSAGE_TITLE, ERROR_MESSAGE)
             return
         try:
             main(path)
-            QMessageBox.information(self, "LEEEEKKEEEEER", "La Dahyun es una CERDA")
+            QMessageBox.information(self, SUCCESS_MESSAGE_TITLE, SUCCESS_MESSAGE)
         except Exception as e:
-            QMessageBox.critical(self, "Error", str(e))
+            QMessageBox.critical(self, ERROR_MESSAGE_TITLE, str(e))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
