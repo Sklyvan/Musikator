@@ -1,8 +1,6 @@
 # 🎵 Musikator
 
-Welcome to **Musikator**!  
-A Python tool to **search, filter, convert, and organize your audio files** with ease.  
-It leverages `ffmpeg` and `mutagen` to process your music library, supporting formats like MP3, WAV, M4A, AIFF, and FLAC.
+Welcome to **Musikator**! A Python tool to **search, filter, convert, and organize your audio files** with ease. It leverages `ffmpeg` and `mutagen` to process your music library, supporting formats like MP3, WAV, M4A, AIFF, and FLAC.
 
 ---
 
