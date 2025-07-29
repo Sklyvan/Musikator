@@ -23,7 +23,7 @@ def toAIFF(inputPath: Path, outputDir: Path) -> Path:
 
     outputFile = outputDir / (inputPath.stem + ".aiff")
 
-    cmd = [
+    ffmpegInstruction = [
         FFMPEG_PATH,
         "-y",                      # Overwrite without asking
         "-i", str(inputPath),      # Input file
@@ -33,12 +33,12 @@ def toAIFF(inputPath: Path, outputDir: Path) -> Path:
     ]
 
     try:
-        LOGGER.debug(f"Running ffmpeg command: {' '.join(cmd)}")
+        LOGGER.debug(f"Running ffmpeg command: {' '.join(ffmpegInstruction)}")
 
-        result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        runResult = subprocess.run(ffmpegInstruction, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
-        if result.returncode != 0:
-            LOGGER.error(f"FFmpeg error converting {inputPath.name}: {result.stderr}")
+        if runResult.returncode != 0:
+            LOGGER.error(f"FFmpeg error converting {inputPath.name}: {runResult.stderr}")
             raise RuntimeError(f"FFmpeg failed for {inputPath.name}")
         else:
             LOGGER.info(f"Converted: {inputPath.name} → {outputFile.name}")
