@@ -1,5 +1,5 @@
 from url import extractPlaylistID, extractAlbumID
-from configuration import loadEnvironmentCredentials
+from configuration import loadEnvironmentCredentials, PLAYLIST_NAME, ALBUM_NAME
 from client import SpotifyClient
 import json
 
@@ -27,7 +27,7 @@ def savePlaylist(url: str) -> dict:
         client = SpotifyClient(authManager)
         content = client.getPlaylistTracks(playlistID)
 
-        saveToJSON(content, f'Playlist_{playlistID}.json')
+        saveToJSON(content, PLAYLIST_NAME.format(playlistID=playlistID))
         return content
 
     except Exception as e:
@@ -47,12 +47,8 @@ def saveAlbum(url: str) -> dict:
         client = SpotifyClient(authManager)
         content = client.getAlbumTracks(albumID)
 
-        saveToJSON(content, f'Album_{albumID}.json')
+        saveToJSON(content, ALBUM_NAME.format(albumID=albumID))
         return content
 
     except Exception as e:
         raise RuntimeError(f"An error occurred while fetching the album: {e}")
-
-if __name__ == "__main__":
-    ALBUM_URL = "https://open.spotify.com/album/0edbVzfXfKVIAcIRuQ0MMo"
-    saveAlbum(ALBUM_URL)

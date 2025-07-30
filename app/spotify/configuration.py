@@ -2,6 +2,8 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import dotenv
 import os
 
+PLAYLIST_NAME, ALBUM_NAME = "Playlist_{playlistID}.json", "Album_{albumID}.json"
+
 def loadEnvironmentCredentials() -> SpotifyClientCredentials:
     """
     Load Spotify API credentials from environment variables.
